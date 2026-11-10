@@ -1,0 +1,208 @@
+DSA PRACTICE SHEET - PSEUDOCODE AND FLOWCHART ANSWERS
+
+SECTION 1: PSEUDOCODE
+
+PC-1: PRIME NUMBER CHECKER
+
+START
+    INPUT N
+
+    IF N <= 1 THEN
+        PRINT "Not Prime"
+        STOP
+    END IF
+
+    isPrime = true
+    i = 2
+
+    WHILE i * i <= N
+        IF N MOD i == 0 THEN
+            isPrime = false
+            BREAK
+        END IF
+        i = i + 1
+    END WHILE
+
+    IF isPrime == true THEN
+        PRINT "Prime"
+    ELSE
+        PRINT "Not Prime"
+    END IF
+STOP
+
+Example:
+N = 61 -> Prime
+N = 8  -> Not Prime
+
+PC-2: NUMBER DIGIT REVERSAL
+
+START
+    INPUT N
+    reversed = 0
+
+    WHILE N > 0
+        digit = N MOD 10
+        reversed = reversed * 10 + digit
+        N = N DIV 10
+    END WHILE
+
+    PRINT reversed
+STOP
+
+Example:
+N = 1234 -> 4321
+N = 806  -> 608
+
+Note: This version is for non-negative integers, as in the given examples.
+For negative input, preserve the sign separately before reversing.
+
+
+SECTION 2: FLOWCHARTS (TEXT FLOWCHARTS)
+
+FC-1: PRIME NUMBER FLOWCHART
+
+       +---------+
+       |  START  |
+       +----+----+
+            |
+       +----v----+
+       | INPUT N |
+       +----+----+
+            |
+       +----v---------+
+       | Is N <= 1 ?  |
+       +--+--------+--+
+        Yes        No
+         |          |
+  +------v----+  +--v-----------+
+  | Not Prime |  | isPrime=true |
+  +------+----+  | i = 2        |
+         |       +------+-------+
+         |              |
+         |       +------v----------+
+         |       | Is i*i <= N ?   |<------------------+
+         |       +---+----------+--+                   |
+         |          No          Yes                    |
+         |           |           |                     |
+         |     +-----v----+  +---v-------------+       |
+         |     | isPrime? |  | Is N MOD i = 0? |       |
+         |     +--+----+--+  +---+----------+--+       |
+         |      Yes    No       Yes         No        |
+         |       |      |        |           |         |
+         |  +----v+  +--v------+ |     +-----v----+    |
+         |  |Prime|  |Not Prime| |     | i = i+1  |----+
+         |  +--+--+  +----+----+ |     +----------+
+         |     |          |      |
+         +-----+----------+------+
+                       |
+                  +----v---+
+                  |  END   |
+                  +--------+
+
+FC-2: NUMBER DIGIT REVERSAL FLOWCHART
+
+       +---------+
+       |  START  |
+       +----+----+
+            |
+       +----v---------+
+       | INPUT N      |
+       | reversed = 0 |
+       +----+---------+
+            |
+       +----v------+
+       | Is N > 0? |<----------------------+
+       +--+-----+--+                       |
+        No       Yes                       |
+         |        |                        |
+  +------v----+   |                        |
+  | PRINT     |   |                        |
+  | reversed  |   |                        |
+  +------+----+   |                        |
+         |   +----v----------------+       |
+         |   | digit = N MOD 10    |       |
+         |   +----+---------------+       |
+         |        |                       |
+         |   +----v----------------------+|
+         |   | reversed = reversed*10   ||
+         |   |             + digit       ||
+         |   +----+----------------------+
+         |        |
+         |   +----v---------+
+         |   | N = N DIV 10 |
+         |   +----+---------+
+         |        |
+         |        +-----------------------+
+         |
+       + v------+
+       |  END   |
+       +--------+
+
+
+SECTION 3: TIME COMPLEXITY - SUMMARY
+
+TC-1: Linear Search
+Array = {8, 61, 2, 3, 4, 0}
+
+Best case: target 8 is at index 0. One comparison -> O(1).
+Worst case: target 0 is at the last index; 6 comparisons for this
+sample. For N elements -> O(N).
+Average case: target may be at any position; average comparisons
+are approximately (N+1)/2 -> O(N).
+
+TC-2: Iterative Binary Search
+Sorted array = {0, 2, 3, 4, 8, 61}, target = 4.
+
+Step 1: low=0, high=5, mid=2, arr[mid]=3.
+3 < 4, so new range is indices 3 to 5.
+
+Step 2: low=3, high=5, mid=4, arr[mid]=8.
+8 > 4, so new range is indices 3 to 3.
+
+Step 3: low=3, high=3, mid=3, arr[mid]=4.
+Target found at index 3.
+
+Worst-case ranges: N, N/2, N/4, N/8, ... , 1.
+N/(2^k) <= 1 -> 2^k >= N -> k >= log2(N).
+Time complexity = O(log N).
+
+TC-3: Merge Sort
+Split tree for {8, 61, 2, 3, 4, 0}:
+
+                 [8, 61, 2, 3, 4, 0]
+                  /               \
+             [8, 61, 2]          [3, 4, 0]
+              /      \            /      \
+           [8]      [61, 2]     [3]     [4, 0]
+                     /   \                /  \
+                   [61]  [2]            [4]  [0]
+
+Recurrence: T(N) = 2T(N/2) + cN.
+At each level, total merge work is cN:
+Level 0 = cN
+Level 1 = 2*c(N/2) = cN
+Level 2 = 4*c(N/4) = cN
+There are log2(N) levels.
+Total = cN log2(N), so time complexity = O(N log N).
+
+
+SECTION 4: SPACE COMPLEXITY - SUMMARY
+
+SC-1: Iterative Linear Search
+Only a fixed number of variables are used; no extra array is created.
+Auxiliary space = O(1).
+
+SC-2: Iterative Binary Search
+Only low, high, and mid variables are used.
+Auxiliary space = O(1).
+
+SC-3: Merge Sort
+Temporary arrays are required during merging and can hold N elements.
+The recursion stack uses O(log N), but the temporary arrays dominate.
+Auxiliary space = O(N).
+
+Comparison:
+Insertion Sort uses O(1) auxiliary space.
+Typical in-place Quick Sort uses O(log N) average stack space,
+but O(N) in the worst case.
+Merge Sort uses O(N) extra array space.
